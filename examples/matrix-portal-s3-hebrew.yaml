@@ -63,9 +63,11 @@ font:
   - file: "fonts/ChavaRegular.ttf"
     id: chava
     size: 10
+    bpp: 2
     glyphs:
       - "אבגדהוזחטיכךלמםנןסעפףצץקרשת"
-      - "0123456789.:;!? "
+      - "0123456789.:;!?... "
+      - "־"
 
 time:
   - platform: sntp
