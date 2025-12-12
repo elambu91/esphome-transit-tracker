@@ -46,6 +46,7 @@ class TransitTracker : public Component {
     void set_list_mode(const std::string &list_mode) { list_mode_ = list_mode; }
     void set_limit(int limit) { limit_ = limit; }
     void set_scroll_headsigns(bool scroll_headsigns) { scroll_headsigns_ = scroll_headsigns; }
+    void set_rtl_mode(bool rtl_mode) { rtl_mode_ = rtl_mode; }
 
     void set_unit_display(UnitDisplay unit_display) { this->localization_.set_unit_display(unit_display); }
     void add_abbreviation(const std::string &from, const std::string &to) { abbreviations_[from] = to; }
@@ -97,6 +98,7 @@ class TransitTracker : public Component {
     Color default_route_color_ = Color(0x028e51);
     std::map<std::string, RouteStyle> route_styles_;
     bool scroll_headsigns_ = false;
+    bool rtl_mode_ = false;
 };
 
 

@@ -4,6 +4,19 @@ This is an external component for [ESPHome](https://esphome.io/) that fetches an
 
 This component is used by the [Transit Tracker](https://transit-tracker.eastsideurbanism.org/) project. Check it out if you want to build your own!
 
+## Fork: Hebrew/RTL Support
+
+This fork (elambu91/esphome-transit-tracker) adds **RTL (Right-to-Left) text rendering support** for Hebrew and other RTL languages. See [RTL_SUPPORT.md](RTL_SUPPORT.md) for detailed documentation.
+
+### Quick RTL Setup
+
+```yaml
+transit_tracker:
+  id: tracker
+  rtl_mode: true  # Enable RTL mode
+  # ... other config
+```
+
 ## Note
 
 Though this can technically work with any display supported by ESPHome, it is optimized for and tested with a 128x64 LED matrix display.
@@ -62,6 +75,9 @@ transit_tracker:
 
   # If true, headsign text will scroll if it doesn't fit
   scroll_headsigns: false
+
+  # Enable RTL (right-to-left) mode for Hebrew and other RTL languages
+  rtl_mode: false
 
   # List of stop and route IDs to track
   stops:
