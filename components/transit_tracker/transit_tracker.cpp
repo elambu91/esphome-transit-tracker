@@ -427,34 +427,34 @@ void HOT TransitTracker::draw_schedule() {
   }
 
   if (!esphome::network::is_connected()) {
-    this->draw_text_centered_("Waiting for network", Color(0x252627));
+    this->draw_text_centered_("מחכה לחיבור לאינטרנט", Color(0x252627));
     return;
   }
 
   if (!this->rtc_->now().is_valid()) {
-    this->draw_text_centered_("Waiting for time sync", Color(0x252627));
+    this->draw_text_centered_("מחכה לסנכרון זמן", Color(0x252627));
     return;
   }
 
   if (this->base_url_.empty()) {
-    this->draw_text_centered_("No base URL set", Color(0x252627));
+    this->draw_text_centered_("לא הוגדרה כתובת לשרת", Color(0x252627));
     return;
   }
 
   if (this->status_has_error()) {
-    this->draw_text_centered_("Error loading schedule", Color(0xFE4C5C));
+    this->draw_text_centered_("שגיאה בטעינת לוח הזמנים", Color(0xFE4C5C));
     return;
   }
 
   if (!this->has_ever_connected_) {
-    this->draw_text_centered_("Loading...", Color(0x252627));
+    this->draw_text_centered_("טוען...", Color(0x252627));
     return;
   }
 
   if (this->schedule_state_.trips.empty()) {
-    auto message = "No upcoming arrivals";
+    auto message = "אין זמני הגעה קרובים";
     if (this->display_departure_times_) {
-      message = "No upcoming departures";
+      message = "אין זמני יציאה קרובים";
     }
 
     this->draw_text_centered_(message, Color(0x252627));
