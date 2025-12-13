@@ -364,14 +364,15 @@ void TransitTracker::draw_trip(
     if (this->rtl_mode_) {
       route_x_pos = this->display_->get_width() - 1;
       
-      time_x_pos = this->display_->get_width() - route_width - time_width - 2;
+      int icon_width = trip.is_realtime ? 9 : 0;
+      time_x_pos = icon_width + 1;
       time_align = display::TextAlign::TOP_LEFT;
       
-      headsign_clipping_start = trip.is_realtime ? 8 : 0;
-      headsign_clipping_end = time_x_pos - 2;
+      headsign_clipping_start = time_x_pos + time_width + 2;
+      headsign_clipping_end = this->display_->get_width() - route_width - 3;
       
       if (trip.is_realtime) {
-        icon_x = 1;
+        icon_x = 6;
       }
     } else {
       route_x_pos = 0;
