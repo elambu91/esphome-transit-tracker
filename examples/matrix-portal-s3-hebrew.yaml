@@ -67,6 +67,7 @@ font:
     glyphs:
       - abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,:;!?()"'-+/*=%@#[]{}<>|&^~
       - אבגדהוזחטיכךלמםנןסעפףצץקרשת
+      - "''׳״"
       - ←↑→↓↔↕
       - "־"
       - " "
