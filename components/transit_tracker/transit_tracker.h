@@ -34,6 +34,7 @@ class TransitTracker : public Component {
     void draw_schedule();
 
     Localization* get_localization() { return &this->localization_; }
+    bool is_rtl_mode() const { return this->rtl_mode_; }
 
     void set_display(display::Display *display) { display_ = display; }
     void set_font(font::Font *font) { font_ = font; }

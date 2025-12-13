@@ -15,7 +15,7 @@ enum UnitDisplay : uint8_t {
 
 class Localization {
   public:
-    std::string fmt_duration_from_now(time_t unix_timestamp, uint rtc_now) const;
+    std::string fmt_duration_from_now(time_t unix_timestamp, uint rtc_now, bool rtl_mode = false) const;
 
     void set_unit_display(UnitDisplay unit_display) { unit_display_ = unit_display; }
     void set_now_string(const std::string &now_string) { now_string_ = now_string; }

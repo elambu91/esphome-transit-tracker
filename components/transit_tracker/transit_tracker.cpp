@@ -349,7 +349,8 @@ void TransitTracker::draw_trip(
 
     auto time_display = this->localization_.fmt_duration_from_now(
       this->display_departure_times_ ? trip.departure_time : trip.arrival_time,
-      rtc_now
+      rtc_now,
+      this->rtl_mode_
     );
 
     int time_width;
@@ -361,17 +362,17 @@ void TransitTracker::draw_trip(
     int icon_x = 0;
 
     if (this->rtl_mode_) {
-      int total_time_section_width = time_width + (trip.is_realtime ? 8 : 0);
+      int icon_width = trip.is_realtime ? 8 : 0;
       
-      time_x_pos = total_time_section_width;
+      time_x_pos = icon_width + time_width + 1;
       time_align = display::TextAlign::TOP_RIGHT;
       route_x_pos = this->display_->get_width() - 1;
       
-      headsign_clipping_start = total_time_section_width + 3;
+      headsign_clipping_start = time_x_pos + 2;
       headsign_clipping_end = this->display_->get_width() - route_width - 3;
       
       if (trip.is_realtime) {
-        icon_x = 1;
+        icon_x = time_width + 2;
       }
     } else {
       route_x_pos = 0;
