@@ -344,8 +344,13 @@ void TransitTracker::draw_trip(
     const Trip &trip, int y_offset, int font_height, unsigned long uptime, uint rtc_now,
     bool no_draw, int *headsign_overflow_out, int scroll_cycle_duration
 ) {
+    std::string display_route_name = trip.route_name;
+    if (this->rtl_mode_) {
+      display_route_name = format_route_name_rtl(trip.route_name);
+    }
+    
     int route_width, _;
-    this->font_->measure(trip.route_name.c_str(), &route_width, &_, &_, &_);
+    this->font_->measure(display_route_name.c_str(), &route_width, &_, &_, &_);
 
     auto time_display = this->localization_.fmt_duration_from_now(
       this->display_departure_times_ ? trip.departure_time : trip.arrival_time,
@@ -391,7 +396,7 @@ void TransitTracker::draw_trip(
     if (!no_draw) {
       this->display_->print(route_x_pos, y_offset, this->font_, trip.route_color, 
                            this->rtl_mode_ ? display::TextAlign::TOP_RIGHT : display::TextAlign::TOP_LEFT, 
-                           trip.route_name.c_str());
+                           display_route_name.c_str());
 
       Color time_color = trip.is_realtime ? Color(0x20FF00) : Color(0xa7a7a7);
       this->display_->print(time_x_pos, y_offset, this->font_, time_color, time_align, time_display.c_str());

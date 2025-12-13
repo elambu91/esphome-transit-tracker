@@ -111,3 +111,60 @@ std::string reverse_hebrew_only(const std::string &s) {
   
   return result;
 }
+
+std::string format_route_name_rtl(const std::string &s) {
+  if (s.empty()) {
+    return s;
+  }
+  
+  std::vector<std::string> chars;
+  size_t i = 0;
+  
+  while (i < s.length()) {
+    unsigned char c = s[i];
+    size_t char_len = 1;
+    
+    if ((c & 0x80) == 0) {
+      char_len = 1;
+    } else if ((c & 0xE0) == 0xC0) {
+      char_len = 2;
+    } else if ((c & 0xF0) == 0xE0) {
+      char_len = 3;
+    } else if ((c & 0xF8) == 0xF0) {
+      char_len = 4;
+    }
+    
+    if (i + char_len <= s.length()) {
+      chars.push_back(s.substr(i, char_len));
+    }
+    
+    i += char_len;
+  }
+  
+  if (chars.empty()) {
+    return s;
+  }
+  
+  std::string first_char = chars[0];
+  bool starts_with_hebrew = false;
+  
+  if (first_char.length() >= 2) {
+    unsigned char first = first_char[0];
+    unsigned char second = first_char[1];
+    if ((first == 0xD7 && second >= 0x90 && second <= 0xBF) ||
+        (first == 0xD6 && second >= 0x80)) {
+      starts_with_hebrew = true;
+    }
+  }
+  
+  if (starts_with_hebrew && chars.size() > 1) {
+    std::string hebrew_letter = chars[0];
+    std::string rest;
+    for (size_t j = 1; j < chars.size(); j++) {
+      rest += chars[j];
+    }
+    return rest + hebrew_letter;
+  }
+  
+  return s;
+}
