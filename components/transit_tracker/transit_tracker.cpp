@@ -358,17 +358,20 @@ void TransitTracker::draw_trip(
     int headsign_clipping_start, headsign_clipping_end;
     int route_x_pos, time_x_pos;
     display::TextAlign time_align;
+    int icon_x = 0;
 
     if (this->rtl_mode_) {
-      time_x_pos = 0;
-      time_align = display::TextAlign::TOP_LEFT;
-      route_x_pos = this->display_->get_width() + 1;
+      int total_time_section_width = time_width + (trip.is_realtime ? 8 : 0);
       
-      headsign_clipping_start = time_width + 2;
+      time_x_pos = total_time_section_width;
+      time_align = display::TextAlign::TOP_RIGHT;
+      route_x_pos = this->display_->get_width() - 1;
+      
+      headsign_clipping_start = total_time_section_width + 3;
       headsign_clipping_end = this->display_->get_width() - route_width - 3;
       
       if (trip.is_realtime) {
-        headsign_clipping_start += 8;
+        icon_x = 1;
       }
     } else {
       route_x_pos = 0;
@@ -380,6 +383,7 @@ void TransitTracker::draw_trip(
       
       if (trip.is_realtime) {
         headsign_clipping_end -= 8;
+        icon_x = this->display_->get_width() - time_width - 2;
       }
     }
 
@@ -393,15 +397,7 @@ void TransitTracker::draw_trip(
     }
 
     if (trip.is_realtime && !no_draw) {
-      int icon_x, icon_bottom_right_y;
-      
-      if (this->rtl_mode_) {
-        icon_x = time_width + 8;
-      } else {
-        icon_x = this->display_->get_width() - time_width - 2;
-      }
-      
-      icon_bottom_right_y = y_offset + font_height - 6;
+      int icon_bottom_right_y = y_offset + font_height - 6;
       this->draw_realtime_icon_(icon_x, icon_bottom_right_y, uptime);
     }
 
@@ -442,8 +438,17 @@ void TransitTracker::draw_trip(
       }
     }
 
+    int headsign_x_pos;
+    if (this->rtl_mode_) {
+      headsign_x_pos = headsign_clipping_end - scroll_offset;
+    } else {
+      headsign_x_pos = headsign_clipping_start - scroll_offset;
+    }
+
     this->display_->start_clipping(headsign_clipping_start, 0, headsign_clipping_end, this->display_->get_height());
-    this->display_->print(headsign_clipping_start - scroll_offset, y_offset, this->font_, headsign_text.c_str());
+    this->display_->print(headsign_x_pos, y_offset, this->font_, 
+                         this->rtl_mode_ ? display::TextAlign::TOP_RIGHT : display::TextAlign::TOP_LEFT,
+                         headsign_text.c_str());
     this->display_->end_clipping();
 }
 
