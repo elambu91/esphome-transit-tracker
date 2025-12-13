@@ -441,7 +441,7 @@ void TransitTracker::draw_trip(
 
     int headsign_x_pos;
     if (this->rtl_mode_) {
-      headsign_x_pos = headsign_clipping_end - scroll_offset;
+      headsign_x_pos = headsign_clipping_end + scroll_offset;
     } else {
       headsign_x_pos = headsign_clipping_start - scroll_offset;
     }

@@ -65,10 +65,11 @@ font:
     size: 12
     bpp: 2
     glyphs:
-      - "אבגדהוזחטיכךלמםנןסעפףצץקרשת"
-      - "0123456789.:;!?... "
+      - abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,:;!?()"'-+/*=%@#[]{}<>|&^~
+      - אבגדהוזחטיכךלמםנןסעפףצץקרשת
+      - ←↑→↓↔↕
       - "־"
-      - "←↑→↓↔↕"
+      - " "
 
 time:
   - platform: sntp
