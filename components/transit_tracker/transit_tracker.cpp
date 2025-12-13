@@ -403,7 +403,7 @@ void TransitTracker::draw_trip(
     }
 
     if (trip.is_realtime && !no_draw) {
-      int icon_bottom_right_y = y_offset + font_height - 6;
+      int icon_bottom_right_y = y_offset + font_height - 6 + 2;
       this->draw_realtime_icon_(icon_x, icon_bottom_right_y, uptime);
     }
 
