@@ -1,5 +1,4 @@
 #include "localization.h"
-#include "string_utils.h"
 
 namespace esphome {
 namespace transit_tracker {
@@ -14,9 +13,9 @@ std::string Localization::fmt_duration_from_now(time_t unix_timestamp, uint rtc_
   if (diff < 60) {
     switch (this->unit_display_) {
       case UNIT_DISPLAY_LONG:
-        return rtl_mode ? (reverse_hebrew_only(this->minutes_long_string_) + "0") : ("0" + this->minutes_long_string_);
+        return rtl_mode ? (this->minutes_long_string_ + "0") : ("0" + this->minutes_long_string_);
       case UNIT_DISPLAY_SHORT:
-        return rtl_mode ? (reverse_hebrew_only(this->minutes_short_string_) + "0") : ("0" + this->minutes_short_string_);
+        return rtl_mode ? (this->minutes_short_string_ + "0") : ("0" + this->minutes_short_string_);
       case UNIT_DISPLAY_NONE:
         return "0";
     }
@@ -27,10 +26,10 @@ std::string Localization::fmt_duration_from_now(time_t unix_timestamp, uint rtc_
   if (minutes < 60) {
     switch (this->unit_display_) {
       case UNIT_DISPLAY_LONG:
-        return rtl_mode ? str_sprintf("%s%d", reverse_hebrew_only(this->minutes_long_string_).c_str(), minutes) 
+        return rtl_mode ? str_sprintf("%s%d", this->minutes_long_string_.c_str(), minutes) 
                         : str_sprintf("%d%s", minutes, this->minutes_long_string_.c_str());
       case UNIT_DISPLAY_SHORT:
-        return rtl_mode ? str_sprintf("%s%d", reverse_hebrew_only(this->minutes_short_string_).c_str(), minutes)
+        return rtl_mode ? str_sprintf("%s%d", this->minutes_short_string_.c_str(), minutes)
                         : str_sprintf("%d%s", minutes, this->minutes_short_string_.c_str());
       case UNIT_DISPLAY_NONE:
       default:
@@ -44,7 +43,7 @@ std::string Localization::fmt_duration_from_now(time_t unix_timestamp, uint rtc_
   switch (this->unit_display_) {
     case UNIT_DISPLAY_LONG:
     case UNIT_DISPLAY_SHORT:
-      return rtl_mode ? str_sprintf("%s%d%s%d", reverse_hebrew_only(this->minutes_short_string_).c_str(), minutes, reverse_hebrew_only(this->hours_short_string_).c_str(), hours)
+      return rtl_mode ? str_sprintf("%s%d%s%d", this->minutes_short_string_.c_str(), minutes, this->hours_short_string_.c_str(), hours)
                       : str_sprintf("%d%s%d%s", hours, this->hours_short_string_.c_str(), minutes, this->minutes_short_string_.c_str());
     case UNIT_DISPLAY_NONE:
     default:

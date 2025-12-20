@@ -1,146 +1,39 @@
 # ESPHome Transit Tracker Component
 
-This is an external component for [ESPHome](https://esphome.io/) that fetches and renders a live arrivals board for any transit agency supported by the [Transit Tracker API](https://github.com/tjhorner/transit-tracker-api).
+This is an ESPHome custom component for the [Transit Tracker](https://transit-tracker.eastsideurbanism.org/) project with Hebrew language and Right-to-Left (RTL) text display support.
 
-This component is used by the [Transit Tracker](https://transit-tracker.eastsideurbanism.org/) project. Check it out if you want to build your own!
+## About This Component
 
-## Fork: Hebrew/RTL Support
+This ESPHome component adds:
+- **RTL (Right-to-Left) text rendering** - Proper text direction for Hebrew and other RTL languages
+- **Hebrew status messages** - All system messages translated to Hebrew
+- **Enhanced text handling** - Improved string processing for Hebrew characters
 
-This fork (elambu91/esphome-transit-tracker) adds **RTL (Right-to-Left) text rendering support** for Hebrew and other RTL languages. See [RTL_SUPPORT.md](RTL_SUPPORT.md) for detailed documentation.
+This component is automatically used by the firmware - **you don't need to use this repository directly**. It's referenced in the firmware configuration and downloaded during the build process.
 
-### Quick RTL Setup
+## Related Projects
 
-```yaml
-transit_tracker:
-  id: tracker
-  rtl_mode: true  # Enable RTL mode
-  # ... other config
-```
+### Transit Tracker Firmware
+**Repository:** [elambu91/transit-tracker](https://github.com/elambu91/transit-tracker)
 
-## Note
+Start here to build your Transit Tracker! This repository contains the firmware configuration and build system for flashing your ESP32 device with Hebrew support.
 
-Though this can technically work with any display supported by ESPHome, it is optimized for and tested with a 128x64 LED matrix display.
+### Israeli Bus API Server
+**Repository:** [elambu91/israeli-bus](https://github.com/elambu91/israeli-bus)
 
-## Usage
+Backend server that provides real-time Israeli bus schedule data. Required if you want to display Israeli bus arrivals.
 
-Check out the `examples` directory for a full example configuration.
+## Building Your Own Transit Tracker
 
-You can use this component in your ESPHome configuration by importing it with `external_components`:
+Visit the [Transit Tracker build guide](https://transit-tracker.eastsideurbanism.org/) for the complete parts list. You'll need:
+- ESP32-S3 development board
+- HUB75 LED matrix panels (64x32 or 64x64)
+- Power supply (5V, 4A minimum)
+- Enclosure (optional, 3D printable files available)
 
-```yaml
-external_components:
-  - source: github://tjhorner/esphome-transit-tracker
-    components: [transit_tracker]
-```
+Then head to the [Transit Tracker Firmware repository](https://github.com/elambu91/transit-tracker) to flash your device.
 
-You will need these components in your configuration:
+## Credits
 
-- [Display](https://esphome.io/components/display/)
-- [Font](https://esphome.io/components/font/)
-- [Time](https://esphome.io/components/time/)
-
-Then you can define an instance of the component like so (this is a complete example; most parameters are optional, and defaults are shown here):
-
-```yaml
-transit_tracker:
-  id: tracker
-
-  # Base URL of the Transit Tracker API
-  base_url: "wss://tt.horner.tj/"
-
-  # The feed code of the transit agency you want to track (optional)
-  feed_code: "st"
-
-  # Maximum number of arrivals to show
-  limit: 3
-
-  # Whether to display arrival or departure times
-  time_display: departure # or "arrival"
-
-  # How to list trips:
-  #   sequential: All trips across all routes in order of arrival/departure
-  #   nextPerRoute: Each route's next trip in order of arrival/departure
-  list_mode: sequential
-
-  # Default color for route names
-  # (See https://esphome.io/components/display/#color)
-  default_route_color: my_favorite_color
-
-  # How to display the duration units.
-  # Examples:
-  #   long  = "5min" / "1h15m"
-  #   short = "5m"   / "1h15m"
-  #   none  = "5"    / "1:15"
-  show_units: long
-
-  # If true, headsign text will scroll if it doesn't fit
-  scroll_headsigns: false
-
-  # Enable RTL (right-to-left) mode for Hebrew and other RTL languages
-  rtl_mode: false
-
-  # List of stop and route IDs to track
-  stops:
-    - stop_id: "1_71971"
-      # If it takes you a known amount of time to walk to the
-      # stop, you can set a time offset here so that the time
-      # displayed on the board is more like a "leave by" time
-      time_offset: -8min # e.g., if it takes you 8 minutes to walk to the stop
-      routes:
-        - "1_100113"
-        - "1_102704"
-    - stop_id: "1_71961"
-      time_offset: -10min
-      routes:
-        - "1_102548"
-
-  # List of custom styles for route names and colors
-  styles:
-    - route_id: "1_102548"
-      name: "B"
-      # See https://esphome.io/components/display/#color
-      color: rapidride_red
-
-  # List of custom abbreviations for headsigns
-  abbreviations:
-    - from: "Bellevue Transit Center Crossroads"
-      to: "Bellevue TC"
-    - from: "Transit Center"
-      to: "TC"
-```
-
-Then, finally, in your display's draw lambda:
-
-```yaml
-display:
-  - platform: # ...
-    id: # ...
-    lambda: |-
-      id(tracker).draw_schedule();
-```
-
-## License
-
-```
-MIT License
-
-Copyright (c) 2025 TJ Horner
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
+- **Original Transit Tracker:** [Eastside Urbanism](https://transit-tracker.eastsideurbanism.org/)
+- **Hebrew/RTL Support:** This component
